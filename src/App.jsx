@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import { GlobalProvider } from './Components/GlobalContex';
 import List from './Components/List';
+import Create from './Components/Create';
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
       <div className="container">
         <div className="row">
           <div className="col-5">
-            Create
+            <Create />
           </div>
           <div className="col-7">
             <List />
