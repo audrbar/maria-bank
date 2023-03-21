@@ -1,16 +1,18 @@
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
+const { v4: uuidv4 } = require('uuid');
+const md5 = require('md5');
 
 const app = express();
-const port = 3003;
+const port = 3004;
 
 const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'dp1'
+    database: 'db1'
 });
 
 app.use(cors({
@@ -28,10 +30,11 @@ app.use(express.json());
 // SELECT column1, column2, ...
 // FROM table_name;
 
-app.get("/trees", (req, res) => {
+app.get('/trees', (req, res) => {
     const sql = `
         SELECT id, title, height, type
         FROM trees
+        ORDER BY type desc, title
     `;
     con.query(sql, (err, result) => {
         if (err) throw err;
