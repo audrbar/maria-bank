@@ -3,6 +3,7 @@ import './App.scss';
 import { GlobalProvider } from './Components/GlobalContex';
 import List from './Components/List';
 import Create from './Components/Create';
+import EditModal from './Components/EditModal';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           </div>
         </div>
       </div>
+      <EditModal />
     </GlobalProvider>
   );
 }
