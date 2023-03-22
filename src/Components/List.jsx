@@ -18,7 +18,7 @@ function List() {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-4">
-                                        <h2>{t.title}</h2>
+                                        <h3>{t.title}</h3>
                                     </div>
                                     <div className="col-2">
                                         <div>{t.height} m</div>

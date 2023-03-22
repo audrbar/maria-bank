@@ -27,6 +27,38 @@ app.use(
 );
 app.use(express.json());
 
+// Auth
+
+// const doAuth = function (req, res, next) {
+
+//     if (req.url.indexOf('/numbers') === 0) {
+//         const users = JSON.parse(fs.readFileSync('./data/users.json', 'utf8'));
+//         const user = req.cookies.magicNumberSession ?
+//             users.find(u => u.session === req.cookies.magicNumberSession) :
+//             null;
+//         if (user && (user.role === 'admin' || user.role === 'manager')) {
+//             next();
+//         } else {
+//             res.status(401).json({});
+//         }
+//     } else if (req.url.indexOf('/users') === 0) {
+//         const users = JSON.parse(fs.readFileSync('./data/users.json', 'utf8'));
+//         const user = req.cookies.magicNumberSession ?
+//             users.find(u => u.session === req.cookies.magicNumberSession) :
+//             null;
+//         if (user && (user.role === 'admin')) {
+//             next();
+//         } else {
+//             res.status(401).json({});
+//         }
+//     } else {
+//         next();
+//     }
+// }
+
+// app.use(doAuth);
+
+
 // SELECT column1, column2, ...
 // FROM table_name;
 
@@ -82,6 +114,59 @@ app.put('/trees/:id', (req, res) => {
     con.query(sql, [req.body.title, req.body.height, req.body.type, req.params.id], (err) => {
         if (err) throw err;
         res.json({});
+    });
+});
+
+// Login Login Login Login Login Login Login
+
+app.post('/login', (req, res) => {
+    const sessionId = uuidv4();
+    const sql = `
+        UPDATE users
+        SET session = ?
+        WHERE name = ? AND psw = ?
+    `;
+    con.query(sql, [sessionId, req.body.name, md5(req.body.psw)], (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows) {
+            res.cookie('treesSession', sessionId);
+            res.json({
+                status: 'ok',
+                name: req.body.name
+            });
+        } else {
+            res.json({
+                status: 'error',
+            });
+        }
+    });
+});
+
+app.post('/logout', (req, res) => {
+    res.clearCookie('treesSession');
+    res.json({
+        status: 'logout',
+    });
+});
+
+app.get('/login', (req, res) => {
+    const sql = `
+        SELECT name
+        FROM users
+        WHERE session = ?
+    `;
+    con.query(sql, [req.cookies.treesSession || ''], (err, result) => {
+        if (err) throw err;
+        if (result.length) {
+            res.json({
+                status: 'ok',
+                name: result[0].name,
+            });
+        } else {
+            res.json({
+                status: 'error',
+            });
+        }
     });
 });
 

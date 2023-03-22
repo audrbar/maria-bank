@@ -10,28 +10,19 @@
     max-width: 300px;
 }
 
-.navbar.navbar-expand-lg.navbar-light.bg-light .nav-link {
-    cursor: pointer;
-
-    &.active {
-        color: skyblue;
-    }
-}
-
-.nav-top {
+nav {
     display: flex;
-    justify-content: space-between;
     width: 100%;
+    justify-content: flex-end;
+    padding: 10px 30px;
 }
 
-.home {
-    width: 100vw;
-    height: calc(100vh - 56px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 300px;
-    letter-spacing: 50px;
-    font-weight: 100;
-    color: skyblue;
+.upload-image {
+    width: 200px;
+    height: auto;
+}
+
+.list-image {
+    height: 150px;
+    width: auto;
 }
