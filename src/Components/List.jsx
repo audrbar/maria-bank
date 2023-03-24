@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { Global } from './GlobalContex';
 
+const IMG = 'http://localhost:3004/';
+
 function List() {
 
     const { trees, setDeleteTree, setEditModalTree } = useContext(Global);
@@ -31,6 +33,13 @@ function List() {
                                     </div>
                                     <div className="col-2">
                                         <button type="button" className="btn btn-primary" onClick={() => setDeleteTree(t)}>CUT</button>
+                                    </div>
+                                    <div className="col-4">
+                                        {
+                                            t.image
+                                                ? <img className="list-image" alt="" src={IMG + t.image} />
+                                                : <img className="list-image" alt="" src={IMG + '7dbeca7c-185c-4778-ab9e-d28e6fb0fecf.png'} />
+                                        }
                                     </div>
                                 </div>
                             </div>
