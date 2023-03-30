@@ -953,6 +953,11 @@ body {
   color: #474646;
 }
 
+back-ground-image {
+  background-image: url('./Img/1104816.png');
+  background-color: transparent;
+}
+
 .placeholder\:italic::-webkit-input-placeholder {
   font-style: italic;
 }

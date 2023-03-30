@@ -14,3 +14,7 @@ body {
     background-color: #cedae7;
     color: #474646;
 }
+back-ground-image {
+    background-image: url('./Img/1104816.png');
+    background-color: transparent;
+}

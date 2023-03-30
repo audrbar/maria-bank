@@ -90,7 +90,7 @@ app.get('/login', (req, res) => {
 
 app.get('/accounts', (req, res) => {
     const sql = `
-        SELECT id, firstname, surname, amount, image
+        SELECT id, firstname, surname, amount, blocked, image
         FROM accounts
         ORDER BY surname
     `;
@@ -137,24 +137,70 @@ app.delete('/accounts/:id', (req, res) => {
 // WHERE condition;
 
 app.put('/accounts/:action/:id', (req, res) => {
-    if (req.params.action === 'add') {
-
-    } else if (req.params.action === 'rem') {
-
-    }
     const sql = `
+        SELECT id, firstname, surname, amount, image
+        FROM accounts
+        WHERE id = ?
+    `;
+    con.query(sql, [req.params.id], (err, [account]) => {
+        if (err) throw err;
+        if (req.params.action === 'add') {
+            const sql = `
+        UPDATE accounts
+        SET amount = ?
+        WHERE id = ?
+    `;
+            con.query(sql, [req.body.amount + account.amount, req.params.id], (err) => {
+                if (err) throw err;
+                res.json({
+                    message: { text: 'Congratulations! The account has been replenished.', 'type': 'info' }
+                });
+            });
+        } else if (req.params.action === 'rem') {
+            const sql = `
         UPDATE accounts
         SET amount = ?
         WHERE id = ?
     `;
 
-    con.query(sql, [req.body.amount, req.params.id], (err) => {
-        if (err) throw err;
-        res.json({
-            message: { text: 'Everything is OK! The account has been debited.', 'type': 'info' }
-        });
+            con.query(sql, [account.amount - req.body.amount, req.params.id], (err) => {
+                if (err) throw err;
+                res.json({
+                    message: { text: 'Everything is OK! The account has been debited.', 'type': 'info' }
+                });
+            });
+        }
     });
 });
+
+// Minus 5 eur
+
+app.put('/accounts/tax', (req, res) => {
+    const sql = `
+        SELECT id, amount
+        FROM accounts
+        WHERE blocked = 0
+    `;
+    con.query(sql, (err, accounts) => {
+        if (err) throw err;
+        accounts.map(a => ({ ...a, amount: a.amount - 5 })).forEach(a => {
+            const sql = `
+        UPDATE accounts
+        SET amount = ?
+        WHERE id = ?
+    `;
+            con.query(sql, [a.amount, a.id], (err) => {
+                if (err) console.error(err);
+            });
+        });
+        res.json({
+            message: { text: 'Sorry... The taxes has been deducted.', 'type': 'info' }
+        });
+
+    });
+});
+
+
 
 app.listen(port, () => {
     console.log(`LN is on port number: ${port}`);

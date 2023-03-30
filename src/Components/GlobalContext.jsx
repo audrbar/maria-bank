@@ -9,7 +9,7 @@ export const Global = createContext();
 
 export const GlobalProvider = ({ children }) => {
 
-    const [response, setCreate, setEdit, setDelete] = useWrite();
+    const [response, setCreate, setEdit, setDelete, setTax] = useWrite();
     const [list, setUpdate] = useRead();
     const [deleteModal, setDeleteModal, addModal, setAddModal, remModal, setRemModal] = useModal();
     const [messages, setMessage] = useMessages([]);
@@ -60,7 +60,8 @@ export const GlobalProvider = ({ children }) => {
             setEdit,
             messages,
             route, setRoute,
-            authName, setAuthName, logOut, logged, setLogged
+            authName, setAuthName, logOut, logged, setLogged,
+            setTax
         }}>
             {children}
         </Global.Provider>

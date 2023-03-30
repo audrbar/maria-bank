@@ -9,6 +9,7 @@ export const useWrite = _ => {
     const [create, setCreate] = useState(null);
     const [destroy, setDelete] = useState(null);
     const [edit, setEdit] = useState(null);
+    const [tax, setTax] = useState(null);
 
     useEffect(() => {
         if (null === edit) {
@@ -17,6 +18,14 @@ export const useWrite = _ => {
         axios.put(URL + '/' + edit.action + '/' + edit.id, { amount: edit.amount })
             .then(res => setResponse(res.data));
     }, [edit]);
+
+    useEffect(() => {
+        if (null === tax) {
+            return;
+        }
+        axios.put(URL + '/' + 'tax', { amount: tax.amount })
+            .then(res => setResponse(res.data));
+    }, [tax]);
 
     useEffect(() => {
         if (null === create) {
@@ -36,7 +45,5 @@ export const useWrite = _ => {
 
     }, [destroy]);
 
-
-    return [response, setCreate, setEdit, setDelete];
-
+    return [response, setCreate, setEdit, setDelete, setTax];
 }
