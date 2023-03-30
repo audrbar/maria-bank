@@ -1,17 +1,17 @@
 {
     "name": "server",
     "version": "1.0.0",
-    "description": "Maria Bank",
-    "main": "app.js",
+    "description": "",
+    "main": "index.js",
     "scripts": {
         "start": "nodemon app.js"
     },
     "keywords": [
         "express",
-        "mysql"
+        "JavaScript"
     ],
     "author": "audrbar",
-    "license": "MIT",
+    "license": "ISC",
     "dependencies": {
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",

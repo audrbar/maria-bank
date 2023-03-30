@@ -1,17 +1,17 @@
 import { useContext, useEffect } from 'react';
 import axios from 'axios';
-import Loader from "./Loader";
-import Login from "./Login";
-import { Global } from './GlobalContext';
+import Loader from './Loader';
+import Login from './Login';
+import { Global } from './GlobalContex';
 
 function Auth({ children }) {
 
-    const { setAuthName, logged, setLogged, route } = useContext(Global);
+    const { setAuthName, logged, setLogged } = useContext(Global);
+
 
     useEffect(() => {
-        axios.get('http://localhost:3003/login', { withCredentials: true })
+        axios.get('http://localhost:3004/login', { withCredentials: true })
             .then(res => {
-                console.log(res.data);
                 if (res.data.status === 'ok') {
                     setAuthName(res.data.name);
                     setLogged(1);
@@ -24,7 +24,7 @@ function Auth({ children }) {
                 setAuthName(null);
                 setLogged(2);
             })
-    }, [route, setLogged, setAuthName]);
+    }, [setLogged, setAuthName]);
 
 
     if (null === logged) {
