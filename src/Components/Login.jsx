@@ -32,7 +32,7 @@ function Login() {
     }
 
     return (
-        <div className="container mx-auto flex w-60 flex-col items-center justify-between p-4 rounded-xl shadow-md gap-y-4">
+        <div className="fixed flex flex-col items-center inset-1/4 justify-center p-4 rounded-xl shadow-md gap-y-6">
             <p className="text-xl mb-3 md:mb-0">
                 {
                     error ? <span style={{ color: 'crimson' }}>Login Error</span> : <span>Login</span>
@@ -43,18 +43,18 @@ function Login() {
                     userName ? <span>Hello, {userName}!</span> : <span>Hello, quest! </span>
                 }
             </p>
-            <div className="flex flex-col items-center justify-between gap-y-2 md:gap-x-4">
+            <div className="flex flex-col items-center justify-between gap-y-2 gap-x-4">
                 <label className="relative block">
                     <input
-                        className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
                         type="text"
                         placeholder="Your Name..."
                         value={name}
                         onChange={e => setName(e.target.value)} />
                 </label>
-                <label className="relative block2">
+                <label className="relative block">
                     <input
-                        className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-2 pr-3 max-w-sm shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-2 pr-3 max-w-sm shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
                         type="password"
                         placeholder="Your Password..."
                         value={psw}

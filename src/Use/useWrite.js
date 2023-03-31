@@ -50,7 +50,7 @@ export const useWrite = _ => {
         if (null === block) {
             return;
         }
-        axios.delete(URL + '/' + block.id, { withCredentials: true })
+        axios.put(URL + '/block/' + block.id, { withCredentials: true })
             .then(res => setResponse(res.data));
 
     }, [block]);

@@ -202,7 +202,7 @@ app.put('/accounts/tax', (req, res) => {
 
 // Blocked Accounts Blocked Accounts Blocked Accounts Blocked Accounts Blocked Accounts
 
-app.put('/accounts/:block/:id', (req, res) => {
+app.put('/accounts/block/:id', (req, res) => {
     const sql = `
         SELECT id, blocked
         FROM accounts
