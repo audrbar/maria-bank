@@ -10,6 +10,7 @@ export const useWrite = _ => {
     const [destroy, setDelete] = useState(null);
     const [edit, setEdit] = useState(null);
     const [tax, setTax] = useState(null);
+    const [block, setBlock] = useState(null);
 
     useEffect(() => {
         if (null === edit) {
@@ -23,7 +24,7 @@ export const useWrite = _ => {
         if (null === tax) {
             return;
         }
-        axios.put(URL + '/' + 'tax', { amount: tax.amount })
+        axios.put(URL + '/tax', { amount: tax.amount })
             .then(res => setResponse(res.data));
     }, [tax]);
 
@@ -45,5 +46,14 @@ export const useWrite = _ => {
 
     }, [destroy]);
 
-    return [response, setCreate, setEdit, setDelete, setTax];
+    useEffect(() => {
+        if (null === block) {
+            return;
+        }
+        axios.delete(URL + '/' + block.id, { withCredentials: true })
+            .then(res => setResponse(res.data));
+
+    }, [block]);
+
+    return [response, setCreate, setEdit, setDelete, setTax, setBlock];
 }

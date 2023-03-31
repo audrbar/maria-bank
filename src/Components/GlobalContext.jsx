@@ -9,7 +9,7 @@ export const Global = createContext();
 
 export const GlobalProvider = ({ children }) => {
 
-    const [response, setCreate, setEdit, setDelete, setTax] = useWrite();
+    const [response, setCreate, setEdit, setDelete, setTax, setBlocked] = useWrite();
     const [list, setUpdate] = useRead();
     const [deleteModal, setDeleteModal, addModal, setAddModal, remModal, setRemModal] = useModal();
     const [messages, setMessage] = useMessages([]);
@@ -30,6 +30,13 @@ export const GlobalProvider = ({ children }) => {
                 setAuthName(false);
                 setLogged(2);
                 setRoute('home');
+            });
+    }
+
+    const blockAccount = _ => {
+        axios.put('http://localhost:3003/block', {}, { withCredentials: true })
+            .then(_ => {
+                setBlocked(true);
             });
     }
 
@@ -61,7 +68,8 @@ export const GlobalProvider = ({ children }) => {
             messages,
             route, setRoute,
             authName, setAuthName, logOut, logged, setLogged,
-            setTax
+            setTax,
+            setBlocked, blockAccount
         }}>
             {children}
         </Global.Provider>

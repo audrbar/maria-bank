@@ -173,7 +173,7 @@ app.put('/accounts/:action/:id', (req, res) => {
     });
 });
 
-// Minus 5 eur
+// Minus 5 eur Minus 5 eur Minus 5 eur Minus 5 eur Minus 5 eur Minus 5 eur Minus 5 eur
 
 app.put('/accounts/tax', (req, res) => {
     const sql = `
@@ -194,13 +194,50 @@ app.put('/accounts/tax', (req, res) => {
             });
         });
         res.json({
-            message: { text: 'Sorry... The taxes has been deducted.', 'type': 'info' }
+            message: { text: 'The taxes has been deducted.', 'type': 'info' }
         });
 
     });
 });
 
+// Blocked Accounts Blocked Accounts Blocked Accounts Blocked Accounts Blocked Accounts
 
+app.put('/accounts/:block/:id', (req, res) => {
+    const sql = `
+        SELECT id, blocked
+        FROM accounts
+        WHERE id = ?
+    `;
+    con.query(sql, [req.params.id], (err, [account]) => {
+        console.log(account);
+        if (err) throw err;
+        if (req.params.action === 'block') {
+            const sql = `
+        UPDATE accounts
+        SET blocked = ?
+        WHERE id = ?
+    `;
+            con.query(sql, [1, req.params.id], (err) => {
+                if (err) throw err;
+                res.json({
+                    message: { text: 'The account is blocked.', 'type': 'info' }
+                });
+            });
+        } else if (req.params.action === 'activate') {
+            const sql = `
+        UPDATE accounts
+        SET blocked = ?
+        WHERE id = ?
+    `;
+            con.query(sql, [0, req.params.id], (err) => {
+                if (err) throw err;
+                res.json({
+                    message: { text: 'Everything is OK! The account has been activated.', 'type': 'info' }
+                });
+            });
+        }
+    });
+});
 
 app.listen(port, () => {
     console.log(`LN is on port number: ${port}`);

@@ -1,19 +1,22 @@
 import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 import Footer from './Footer';
+import Totals from './Totals';
 
 
 
 const List = () => {
 
-    const { list, setDeleteModal, setAddModal, setRemModal } = useContext(Global);
+    const { list, setDeleteModal, setAddModal, setRemModal, blockAccount } = useContext(Global);
     const [selectedCategory, setSelectedCategory] = useState('');
 
     function handleCategoryChange(e) {
         setSelectedCategory(e.target.value);
     }
+
     return (
         <div className="container mx-auto flex flex-col items-center justify-between p-4 rounded-xl shadow-md" >
+            <Totals />
             <div className="flex flex-row w-full items-center justify-between">
                 <div>
                     <p className="text-xl">Accounts List</p>
@@ -54,9 +57,11 @@ const List = () => {
                         </li>
                     </ul>
                     <div className="flex flex-row justify-between p-1">
+                        <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={blockAccount}>BLOCK</button>
                         <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={() => setAddModal(n)}>ADD</button>
                         <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={() => setRemModal(n)}>REMOVE</button>
                         <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={() => setDeleteModal(n)}>DELETE</button>
+
                     </div>
                 </div>))
             }
