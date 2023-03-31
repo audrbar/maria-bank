@@ -7,7 +7,7 @@ import Totals from './Totals';
 
 const List = () => {
 
-    const { list, setDeleteModal, setAddModal, setRemModal, blockAccount } = useContext(Global);
+    const { list, setDeleteModal, setAddModal, setRemModal, blocked, blockAccount } = useContext(Global);
     const [selectedCategory, setSelectedCategory] = useState('');
 
     function handleCategoryChange(e) {
@@ -17,31 +17,50 @@ const List = () => {
     return (
         <div className="container mx-auto flex flex-col items-center justify-between p-4 rounded-xl shadow-md" >
             <Totals />
-            <div className="flex flex-row w-full items-center justify-between">
+            <div className="flex flex-col w-full items-center justify-between md:flex-row">
                 <div>
                     <p className="text-xl">Accounts List</p>
                 </div>
-                <div>
+                <div className="flex flex-row items-center justify-between">
+                    <p className="text-xl inline-block">Sort by:</p>
+                    <button type="button" className="bg-gray-500 hover:bg-gray-700 text-white px-2 m-2 rounded-full" >surname</button>
+                    <button type="button" className="bg-gray-500 hover:bg-gray-700 text-white px-2 m-2 rounded-full" >amount</button>
+                    <button type="button" className="bg-gray-500 hover:bg-gray-700 text-white px-2 m-2 rounded-full" >original</button>
+                </div>
+                <div className="flex flex-row items-center">
+                    <p className="text-xl inline-block m-2">Filter:</p>
                     <select
-                        className="px-6 py-2 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-md"
+                        className="px-4 py-2 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-md"
                         name="category list"
                         type="radio"
                         id="category list"
                         onChange={handleCategoryChange}
                     >
                         <option value="">All</option>
-                        <option value="Active">Active</option>
+                        <option value="Debited">Debited</option>
                         <option value="Empty">Empty</option>
+                        <option value="Credited">Credited</option>
+                        <option value="Blocked">Blocked</option>
+                        <option value="Active">Active</option>
                     </select>
                 </div>
             </div>
             {
                 list?.filter(acc => {
-                    if (selectedCategory === 'Active') {
+                    if (selectedCategory === 'Debited') {
                         return acc.amount > 0
                     }
                     if (selectedCategory === 'Empty') {
-                        return acc.amount <= 0
+                        return acc.amount === 0
+                    }
+                    if (selectedCategory === 'Credited') {
+                        return acc.amount < 0
+                    }
+                    if (selectedCategory === 'Blocked') {
+                        return acc.blocked === 1
+                    }
+                    if (selectedCategory === 'Active') {
+                        return acc.blocked === 0
                     }
                     return true;
                 }).map(n => (<div key={n.id} className="flex flex-col items-center justify-between w-full shadow-md rounded-x md:flex-row">
@@ -57,7 +76,11 @@ const List = () => {
                         </li>
                     </ul>
                     <div className="flex flex-row justify-between p-1">
-                        <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={blockAccount}>BLOCK</button>
+                        {
+                            n.blocked === 0 ?
+                                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={blockAccount}>BLOCK</button> :
+                                <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={blockAccount}>ACTIVATE</button>
+                        }
                         <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={() => setAddModal(n)}>ADD</button>
                         <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={() => setRemModal(n)}>REMOVE</button>
                         <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={() => setDeleteModal(n)}>DELETE</button>

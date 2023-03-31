@@ -19,7 +19,7 @@ const Totals = () => {
                     </p>
                 </div>
                 <div className="flex flex-col items-center justify-between back-ground-image gap-y-2 md:gap-x-6">
-                    <p className="pt-2 text-xl text-red-600">Full Accounts: {" "}
+                    <p className="pt-2 text-xl text-red-600">Debited Accounts: {" "}
                         {list?.filter(acc => acc.amount > 0).length ?? 0}
                     </p>
                     <p className="pt-2 text-xl text-red-600">Empty Accounts: {" "}
