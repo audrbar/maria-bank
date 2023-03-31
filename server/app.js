@@ -169,6 +169,32 @@ app.put('/accounts/:action/:id', (req, res) => {
                     message: { text: 'Everything is OK! The account has been debited.', 'type': 'info' }
                 });
             });
+        } else if (req.params.action === 'block') {
+            const sql = `
+        UPDATE accounts
+        SET blocked = ?
+        WHERE id = ?
+    `;
+
+            con.query(sql, [req.body.blocked, req.params.id], (err) => {
+                if (err) throw err;
+                res.json({
+                    message: { text: 'The account has been blocked.', 'type': 'info' }
+                });
+            });
+        } else if (req.params.action === 'activate') {
+            const sql = `
+        UPDATE accounts
+        SET blocked = ?
+        WHERE id = ?
+    `;
+
+            con.query(sql, [req.body.blocked, req.params.id], (err) => {
+                if (err) throw err;
+                res.json({
+                    message: { text: 'The account has been activated.', 'type': 'info' }
+                });
+            });
         }
     });
 });

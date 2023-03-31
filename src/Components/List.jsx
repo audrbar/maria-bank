@@ -7,11 +7,27 @@ import Totals from './Totals';
 
 const List = () => {
 
-    const { list, setDeleteModal, setAddModal, setRemModal, blocked, blockAccount } = useContext(Global);
+    const { list, setDeleteModal, setAddModal, setRemModal, edit, setEdit, blockAccount } = useContext(Global);
     const [selectedCategory, setSelectedCategory] = useState('');
 
     function handleCategoryChange(e) {
         setSelectedCategory(e.target.value);
+    }
+
+    const block = _ => {
+        setEdit({
+            blocked: 1,
+            action: 'block'
+        });
+        console.log(edit);
+    }
+
+    const activate = _ => {
+        setEdit({
+            blocked: 0,
+            action: 'activate'
+        });
+        console.log(edit);
     }
 
     return (
@@ -78,8 +94,8 @@ const List = () => {
                     <div className="flex flex-row justify-between p-1">
                         {
                             n.blocked === 0 ?
-                                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={blockAccount}>BLOCK</button> :
-                                <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={blockAccount}>ACTIVATE</button>
+                                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 m-1 rounded" onClick={block}>BLOCK</button> :
+                                <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={activate}>ACTIVATE</button>
                         }
                         <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={() => setAddModal(n)}>ADD</button>
                         <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 m-1 rounded" onClick={() => setRemModal(n)}>REMOVE</button>
