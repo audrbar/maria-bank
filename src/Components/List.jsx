@@ -97,6 +97,7 @@ const List = () => {
                 filteredList?.length ?
                     filteredList?.map(account => (<div key={account.id} className="flex flex-col items-center justify-between w-full shadow-md rounded-x md:flex-row">
                         <ul className="flex flex-row items-center justify-between w-full p-1">
+                            <img className="h-8 w-8 rounded-full" src="http://localhost:3000/user.png" alt="" />
                             <li className="p-2">
                                 <h2><span className="text-slate-400">Surname: </span>{account.surname}</h2>
                             </li>

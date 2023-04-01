@@ -110,7 +110,7 @@ app.post('/accounts', (req, res) => {
     con.query(sql, [req.body.firstname, req.body.surname, req.body.amount], (err) => {
         if (err) throw err;
         res.json({
-            message: { text: 'New account is created', 'type': 'success' }
+            message: { text: 'New account was created.', 'type': 'success' }
         });
     });
 });
@@ -120,15 +120,33 @@ app.post('/accounts', (req, res) => {
 app.delete('/accounts/:id', (req, res) => {
 
     const sql = `
+        SELECT id, amount, blocked
+        FROM accounts
+        WHERE id = ?
+    `;
+
+    con.query(sql, [req.params.id], (err, [account]) => {
+        if (err) throw err;
+        if (account.blocked === 1) {
+            return res.json({ message: { text: 'You can not delete the blocked account!', 'type': 'info' } });
+        }
+        if (account.amount > 0) {
+            return res.json({ message: { text: 'The account can not be deleted. Just spend our money!', 'type': 'info' } });
+        }
+        if (account.amount < 0) {
+            return res.json({ message: { text: 'The account can not be deleted. Give our money back!', 'type': 'info' } });
+        }
+        const sql = `
         DELETE FROM accounts
         WHERE id = ?
     `;
-    con.query(sql, [req.params.id], (err) => {
-        if (err) throw err;
-        res.json({
-            message: { text: 'The account can not be deleted. Just spend all your money.', 'type': 'danger' }
+        con.query(sql, [req.params.id], (err) => {
+            if (err) throw err;
+            res.json({
+                message: { text: 'The account was deleted.', 'type': 'danger' }
+            });
         });
-    });
+    })
 });
 
 // UPDATE table_name
