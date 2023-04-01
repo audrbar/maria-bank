@@ -647,32 +647,20 @@ input[type='number']::-webkit-outer-spin-button,
   display: flex;
 }
 
-.h-96 {
-  height: 24rem;
-}
-
-.h-16 {
-  height: 4rem;
-}
-
-.h-2 {
-  height: 0.5rem;
-}
-
 .h-8 {
   height: 2rem;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.w-16 {
-  width: 4rem;
+.h-96 {
+  height: 24rem;
 }
 
 .w-8 {
   width: 2rem;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .max-w-screen-lg {
@@ -995,9 +983,24 @@ body {
   color: #474646;
 }
 
-back-ground-image {
-  /* background-image: url('./Img/1104816.png'); */
-  background-color: transparent;
+.back-ground-image {
+  position: relative;
+  opacity: 0.99;
+}
+
+.back-ground-image::before {
+  content: '';
+  background: url('http://localhost:3000/finance.png') no-repeat 0 50%;
+  position: absolute;
+  background-size: cover;
+  border-radius: 0.75rem;
+  inset: 0;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.bg-image {
+  background-image: none;
 }
 
 .placeholder\:italic::-webkit-input-placeholder {

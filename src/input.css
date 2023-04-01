@@ -14,7 +14,21 @@ body {
     background-color: #cedae7;
     color: #474646;
 }
-back-ground-image {
-    /* background-image: url('./Img/1104816.png'); */
-    background-color: transparent;
+.back-ground-image {
+    position: relative;
+    opacity: 0.99;
+}
+.back-ground-image::before {
+    content: '';
+    background: url('http://localhost:3000/finance.png') no-repeat 0 50%;
+    position: absolute;
+    background-size: cover;
+    border-radius: 0.75rem;
+    inset: 0;
+    opacity: 0.2;
+    z-index: -1;
+}
+
+.bg-image {
+    background-image: none;
 }
