@@ -92,7 +92,6 @@ app.get('/accounts', (req, res) => {
     const sql = `
         SELECT id, firstname, surname, amount, blocked, image
         FROM accounts
-        ORDER BY surname
     `;
     con.query(sql, (err, result) => {
         if (err) throw err;
@@ -138,10 +137,11 @@ app.delete('/accounts/:id', (req, res) => {
 
 app.put('/accounts/:action/:id', (req, res) => {
     const sql = `
-        SELECT id, firstname, surname, amount, image
+        SELECT id, firstname, surname, amount, blocked, image
         FROM accounts
         WHERE id = ?
     `;
+
     con.query(sql, [req.params.id], (err, [account]) => {
         if (err) throw err;
         if (req.params.action === 'add') {
@@ -150,6 +150,9 @@ app.put('/accounts/:action/:id', (req, res) => {
         SET amount = ?
         WHERE id = ?
     `;
+            if (account.blocked === 1) {
+                return res.json({ message: { text: 'You can not use the blocked account!', 'type': 'info' } });
+            }
             con.query(sql, [req.body.amount + account.amount, req.params.id], (err) => {
                 if (err) throw err;
                 res.json({
@@ -162,7 +165,12 @@ app.put('/accounts/:action/:id', (req, res) => {
         SET amount = ?
         WHERE id = ?
     `;
-
+            if (account.blocked === 1) {
+                return res.json({ message: { text: 'You can not use the blocked account!', 'type': 'info' } });
+            }
+            if (account.amount - req.body.amount < 0) {
+                return res.json({ message: { text: 'What a pity! Account can not be debited. Not enough money!', 'type': 'info' } });
+            }
             con.query(sql, [account.amount - req.body.amount, req.params.id], (err) => {
                 if (err) throw err;
                 res.json({
@@ -178,22 +186,16 @@ app.put('/accounts/:action/:id', (req, res) => {
 
             con.query(sql, [req.body.blocked, req.params.id], (err) => {
                 if (err) throw err;
-                res.json({
-                    message: { text: 'The account has been blocked.', 'type': 'info' }
-                });
-            });
-        } else if (req.params.action === 'activate') {
-            const sql = `
-        UPDATE accounts
-        SET blocked = ?
-        WHERE id = ?
-    `;
+                if (req.body.blocked === 1) {
+                    res.json({
+                        message: { text: 'The account has been blocked.', 'type': 'info' }
+                    });
+                } else {
+                    res.json({
+                        message: { text: 'The account has been activated.', 'type': 'info' }
+                    });
+                }
 
-            con.query(sql, [req.body.blocked, req.params.id], (err) => {
-                if (err) throw err;
-                res.json({
-                    message: { text: 'The account has been activated.', 'type': 'info' }
-                });
             });
         }
     });
@@ -223,45 +225,6 @@ app.put('/accounts/tax', (req, res) => {
             message: { text: 'The taxes has been deducted.', 'type': 'info' }
         });
 
-    });
-});
-
-// Blocked Accounts Blocked Accounts Blocked Accounts Blocked Accounts Blocked Accounts
-
-app.put('/accounts/block/:id', (req, res) => {
-    const sql = `
-        SELECT id, blocked
-        FROM accounts
-        WHERE id = ?
-    `;
-    con.query(sql, [req.params.id], (err, [account]) => {
-        console.log(account);
-        if (err) throw err;
-        if (req.params.action === 'block') {
-            const sql = `
-        UPDATE accounts
-        SET blocked = ?
-        WHERE id = ?
-    `;
-            con.query(sql, [1, req.params.id], (err) => {
-                if (err) throw err;
-                res.json({
-                    message: { text: 'The account is blocked.', 'type': 'info' }
-                });
-            });
-        } else if (req.params.action === 'activate') {
-            const sql = `
-        UPDATE accounts
-        SET blocked = ?
-        WHERE id = ?
-    `;
-            con.query(sql, [0, req.params.id], (err) => {
-                if (err) throw err;
-                res.json({
-                    message: { text: 'Everything is OK! The account has been activated.', 'type': 'info' }
-                });
-            });
-        }
     });
 });
 

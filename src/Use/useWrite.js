@@ -16,7 +16,7 @@ export const useWrite = _ => {
         if (null === edit) {
             return;
         }
-        axios.put(URL + '/' + edit.action + '/' + edit.id, { amount: edit.amount })
+        axios.put(URL + '/' + edit.action + '/' + edit.id, { amount: edit.amount, blocked: edit.blocked })
             .then(res => setResponse(res.data));
     }, [edit]);
 
