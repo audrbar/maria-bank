@@ -28,7 +28,3 @@ body {
     opacity: 0.2;
     z-index: -1;
 }
-
-.bg-image {
-    background-image: none;
-}
