@@ -20,7 +20,7 @@ body {
 }
 .back-ground-image::before {
     content: '';
-    background: url('http://localhost:3000/finance.png') no-repeat 0 50%;
+    background: url('http://localhost:3001/finance.png') no-repeat 0 50%;
     position: absolute;
     background-size: cover;
     border-radius: 0.75rem;

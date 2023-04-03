@@ -1,17 +1,16 @@
 import { useContext, useEffect } from 'react';
 import axios from 'axios';
-import Loader from "./Loader";
-import Login from "./Login";
+import Loader from './Loader';
+import Login from './Login';
 import { Global } from './GlobalContext';
 
 function Auth({ children }) {
-
     const { setAuthName, logged, setLogged, route } = useContext(Global);
 
     useEffect(() => {
-        axios.get('http://localhost:3003/login', { withCredentials: true })
-            .then(res => {
-                console.log(res.data);
+        axios
+            .get('http://localhost:3003/login', { withCredentials: true })
+            .then((res) => {
                 if (res.data.status === 'ok') {
                     setAuthName(res.data.name);
                     setLogged(1);
@@ -20,29 +19,22 @@ function Auth({ children }) {
                     setLogged(2);
                 }
             })
-            .catch(_ => {
+            .catch((_) => {
                 setAuthName(null);
                 setLogged(2);
-            })
+            });
     }, [route, setLogged, setAuthName]);
 
-
     if (null === logged) {
-        return <Loader />
+        return <Loader />;
     }
 
     if (1 === logged) {
-        return (
-            <>
-                {children}
-            </>
-        )
+        return <>{children}</>;
     }
     if (2 === logged) {
-        console.log(2)
-        return (
-            <Login />
-        )
+        console.log(2);
+        return <Login />;
     }
 }
 

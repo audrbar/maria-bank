@@ -1,9 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext } from 'react';
 import axios from 'axios';
-import { Global } from "./GlobalContext";
+import { Global } from './GlobalContext';
 
 function Login() {
-
     const [userName, setUserName] = useState(null);
     const [error, setError] = useState(null);
     const [name, setName] = useState('');
@@ -11,11 +10,15 @@ function Login() {
 
     const { setLogged, setAuthName, setRoute } = useContext(Global);
 
-    const login = e => {
+    const login = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3003/login', { name, psw }, { withCredentials: true })
-            .then(res => {
-                console.log(res.data);
+        axios
+            .post(
+                'http://localhost:3003/login',
+                { name, psw },
+                { withCredentials: true }
+            )
+            .then((res) => {
                 if (res.data.status === 'ok') {
                     setUserName(res.data.name);
                     setName('');
@@ -29,19 +32,23 @@ function Login() {
                     setUserName(null);
                 }
             });
-    }
+    };
 
     return (
         <div className="fixed flex flex-col items-center inset-1/4 justify-center p-4 rounded-xl shadow-md gap-y-6">
             <p className="text-xl mb-3 md:mb-0">
-                {
-                    error ? <span style={{ color: 'crimson' }}>Login Error</span> : <span>Login</span>
-                }
+                {error ? (
+                    <span style={{ color: 'crimson' }}>Login Error</span>
+                ) : (
+                    <span>Login</span>
+                )}
             </p>
             <p className="text-xl mb-3">
-                {
-                    userName ? <span>Hello, {userName}!</span> : <span>Hello, quest! </span>
-                }
+                {userName ? (
+                    <span>Hello, {userName}!</span>
+                ) : (
+                    <span>Hello, quest! </span>
+                )}
             </p>
             <div className="flex flex-col items-center justify-between gap-y-2 gap-x-4">
                 <label className="relative block">
@@ -50,7 +57,8 @@ function Login() {
                         type="text"
                         placeholder="Your Name..."
                         value={name}
-                        onChange={e => setName(e.target.value)} />
+                        onChange={(e) => setName(e.target.value)}
+                    />
                 </label>
                 <label className="relative block">
                     <input
@@ -58,16 +66,18 @@ function Login() {
                         type="password"
                         placeholder="Your Password..."
                         value={psw}
-                        onChange={e => setPsw(e.target.value)} />
+                        onChange={(e) => setPsw(e.target.value)}
+                    />
                 </label>
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={login}>
+                    onClick={login}
+                >
                     Login
                 </button>
             </div>
-        </div >
-    )
+        </div>
+    );
 }
 
 export default Login;

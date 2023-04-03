@@ -18,7 +18,7 @@ const con = mysql.createConnection({
 });
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3001',
     credentials: true
 }));
 
@@ -225,7 +225,6 @@ app.put('/accounts/tax', (req, res) => {
     const sql = `
         SELECT id, amount
         FROM accounts
-        WHERE blocked = 0
     `;
     con.query(sql, (err, accounts) => {
         if (err) throw err;
